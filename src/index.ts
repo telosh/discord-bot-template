@@ -1,6 +1,5 @@
 import type { Client } from 'discord.js';
-import type { Server } from 'node:http';
-import { serve } from '@hono/node-server';
+import { serve, type ServerType } from '@hono/node-server';
 import { env } from './config/env.js';
 import { logger } from './infra/logger.js';
 import { createClient } from './discord/client.js';
@@ -21,7 +20,7 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-let webServer: Server | undefined;
+let webServer: ServerType | undefined;
 
 async function main(): Promise<void> {
   logger.info({ nodeEnv: env.NODE_ENV }, 'Starting bot');
@@ -53,7 +52,7 @@ async function main(): Promise<void> {
   });
 
   const app = createWebApp(client);
-  webServer = serve({ fetch: app.fetch, port: env.PORT }) as unknown as Server;
+  webServer = serve({ fetch: app.fetch, port: env.PORT });
   logger.info({ port: env.PORT }, 'Web server started');
   if (!env.SESSION_SECRET || !env.DISCORD_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI) {
     logger.warn('OAuth routes disabled: set SESSION_SECRET, DISCORD_CLIENT_SECRET and OAUTH_REDIRECT_URI');
