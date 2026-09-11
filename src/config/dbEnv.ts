@@ -12,14 +12,18 @@ const DbEnvSchema = z.object({
 
 export type DbEnv = z.infer<typeof DbEnvSchema>;
 
+class DbConfigError extends Error {
+  constructor(public readonly issues: Array<{ path: string[]; message: string }>) {
+    super(`Database environment variables are invalid: ${issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')}`);
+    this.name = 'DbConfigError';
+  }
+}
+
 function loadDbEnv(): DbEnv {
   const parsed = DbEnvSchema.safeParse(process.env);
   if (!parsed.success) {
-    console.error('Database environment variables are invalid:');
-    for (const issue of parsed.error.issues) {
-      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
-    }
-    process.exit(1);
+    const issues = parsed.error.issues.map((issue) => ({ path: issue.path.map(String), message: issue.message }));
+    throw new DbConfigError(issues);
   }
   return parsed.data;
 }

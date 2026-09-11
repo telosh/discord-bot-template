@@ -35,14 +35,18 @@ function parseCsv(value: string | undefined): string[] {
     .filter((s) => s.length > 0);
 }
 
+class ConfigError extends Error {
+  constructor(public readonly issues: Array<{ path: string[]; message: string }>) {
+    super(`Environment variables are invalid: ${issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')}`);
+    this.name = 'ConfigError';
+  }
+}
+
 function loadEnv(): Env {
   const parsed = EnvSchema.safeParse(process.env);
   if (!parsed.success) {
-    console.error('Environment variables are invalid:');
-    for (const issue of parsed.error.issues) {
-      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
-    }
-    process.exit(1);
+    const issues = parsed.error.issues.map((issue) => ({ path: issue.path.map(String), message: issue.message }));
+    throw new ConfigError(issues);
   }
   const raw = parsed.data;
   return {
