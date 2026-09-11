@@ -1,5 +1,10 @@
 # discord-bot-template
 
+[![CI](https://github.com/telosh/discord-bot-template/actions/workflows/ci.yml/badge.svg)](https://github.com/telosh/discord-bot-template/actions)
+[![License](https://img.shields.io/github/license/telosh/discord-bot-template)](LICENSE)
+[![Bun](https://img.shields.io/badge/Bun-1.1%2B-black?logo=bun)](https://bun.sh)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7%2B-blue?logo=typescript)](https://www.typescriptlang.org)
+
 > **Bun + discord.js + Hono + React + Turso** を使った OSS 用 Discord ボットテンプレート。
 
 [English README](./README.md)
