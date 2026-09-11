@@ -3,6 +3,27 @@
   "version": "0.1.0",
   "description": "Public OSS Discord bot template. Bun + discord.js + Hono + React + Turso.",
   "license": "MIT",
+  "author": "telosh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telosh/discord-bot-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/telosh/discord-bot-template/issues"
+  },
+  "homepage": "https://github.com/telosh/discord-bot-template#readme",
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "discord-js",
+    "bun",
+    "hono",
+    "turso",
+    "drizzle-orm",
+    "typescript",
+    "template",
+    "oss"
+  ],
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
