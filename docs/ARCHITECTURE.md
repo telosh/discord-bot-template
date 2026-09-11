@@ -50,6 +50,12 @@ The editable source is [architecture.drawio](architecture.drawio). Open it with 
 | `src/web` | Hono web/Activity server and auth shell |
 | `web` | Vite + React frontend shell |
 
+## Database Notes
+
+- Local development uses `file:` SQLite databases under `data/`.
+- In production, create a dedicated Turso database for this bot. Do not reuse an existing database such as `bot-prod`.
+- The per-guild pattern assumes a provisioning strategy. The template uses file-based SQLite by default and a placeholder URL strategy for Turso. Replace `src/db/provision.ts` with real Turso API calls when scaling.
+
 ## Data Flow
 
 1. Discord Gateway sends events (`interactionCreate`, `guildCreate`, `messageCreate`, etc.).

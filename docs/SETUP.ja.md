@@ -2,9 +2,11 @@
 
 ## 要件
 
-- [Bun](https://bun.sh) 1.1+
+- [Bun](https://bun.sh) 1.2+
 - [Discord application](https://discord.com/developers/applications)（Bot ユーザー付き）
-- （任意） [Turso](https://turso.tech) データベースグループ、またはローカル SQLite を利用
+- （任意） [Turso](https://turso.tech) データベース、またはローカル SQLite
+
+> **重要:** このボット専用のデータベース（例：`discord-bot-template`）を作成してください。既存の `bot-prod` などを使い回すとデータが混在し、インシデントの原因になります。
 
 ## 1. インストール
 
@@ -26,19 +28,46 @@ cp .env.example .env
 - `DISCORD_CLIENT_ID` — Application ID
 - `DISCORD_GUILD_ID` — テストサーバー ID（ギルドコマンド即時登録用）
 
-## 3. DB マイグレーション
+## 3. Turso データベース作成（任意）
+
+Turso を使う場合：
+
+```bash
+# Turso CLI をインストール＆ログイン
+npx turso auth login
+
+# このボット専用のデータベースを作成
+npx turso db create discord-bot-template
+
+# 接続 URL とトークンを取得
+npx turso db show discord-bot-template
+npx turso db tokens create discord-bot-template
+```
+
+取得した URL とトークンを `.env` に設定：
+
+```bash
+CONTROL_DB_URL=https://discord-bot-template-ORG.turso.io
+CONTROL_DB_TOKEN=...
+TURSO_TEMPLATE_DB_URL=https://discord-bot-template-ORG.turso.io
+TURSO_GROUP_TOKEN=...
+```
+
+> **既存データベースの使い回しはしないでください。** このボットは per-guild テーブルを作成します。`bot-prod` など他のデータベースを使うとデータ消失や競合が起こる可能性があります。
+
+## 4. DB マイグレーション
 
 ```bash
 bun run db:migrate:all
 ```
 
-## 4. コマンド登録
+## 5. コマンド登録
 
 ```bash
 bun run deploy:commands
 ```
 
-## 5. 起動
+## 6. 起動
 
 ```bash
 bun run dev

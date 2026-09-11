@@ -48,6 +48,9 @@ SQLite はローカル開発をゼロ構成にできます。Turso は本番用�
 **Trade-off:**
 The per-guild pattern assumes a provisioning strategy. The template uses file-based SQLite by default and a placeholder URL strategy for Turso. You can replace `src/db/provision.ts` with real Turso API calls when scaling.
 
+**Safety note:**
+Always create a dedicated Turso database for this bot. Reusing an existing database such as `bot-prod` will mix per-guild tables and can cause data loss.
+
 ---
 
 ## 5. Frontend: React + Vite

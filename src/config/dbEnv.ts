@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { z } from 'zod';
+import { logger } from '../infra/logger.js';
 
 dotenv.config();
 
@@ -29,3 +30,23 @@ function loadDbEnv(): DbEnv {
 }
 
 export const dbEnv: DbEnv = loadDbEnv();
+
+function redactAuthToken(url: string): string {
+  try {
+    const u = new URL(url);
+    if (u.searchParams.has('authToken')) {
+      u.searchParams.set('authToken', '***');
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
+logger.info(
+  {
+    controlDbUrl: redactAuthToken(dbEnv.CONTROL_DB_URL),
+    templateDbUrl: redactAuthToken(dbEnv.TURSO_TEMPLATE_DB_URL),
+  },
+  'Database configuration loaded',
+);
