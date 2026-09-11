@@ -1,18 +1,32 @@
 # discord-bot-template
 
-A public OSS Discord bot template using **Bun + discord.js + Hono + React + Turso**.
+> Public OSS Discord bot template using **Bun + discord.js + Hono + React + Turso**.
 
-This is intended to be a clean, well-organized starting point for your own Discord bot. The web UI and Discord Activity are provided as a complete shell so you can build on top of them.
+[日本語版 README](./README.ja.md)
+
+A clean, well-organized starting point for your own Discord bot. The web UI and Discord Activity are provided as a complete shell so you can build on top of them.
+
+## Why this stack?
+
+This template is designed for **long-term maintainability** and **ease of extension**.
+
+- **Bun** — fast runtime, built-in TypeScript execution, and modern package management.
+- **discord.js** — the most mature and widely-used Node.js library for the Discord API.
+- **Hono** — lightweight, fast, and portable HTTP framework. Runs on Bun, Node, and edge runtimes.
+- **React + Vite** — familiar, modern web stack for the admin UI / Activity shell.
+- **Turso / SQLite** — zero-config local development with a clear path to managed, per-guild databases in production.
+
+For a deeper explanation of the design, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/ARCHITECTURE_RATIONALE.md](docs/ARCHITECTURE_RATIONALE.md).
 
 ## Features
 
-- ✅ Slash command auto-loader (`src/commands/<category>/<name>.ts`)
-- ✅ Type-safe environment config (Zod)
-- ✅ Per-guild DB pattern with Turso / SQLite (Drizzle ORM)
-- ✅ Web admin / Activity shell (Hono + Vite + React)
-- ✅ Discord OAuth login shell
-- ✅ Docker / docker-compose ready
-- ✅ GitHub Actions CI
+- Slash command auto-loader (`src/commands/<category>/<name>.ts`)
+- Type-safe environment config (Zod)
+- Per-guild DB pattern with Turso / SQLite (Drizzle ORM)
+- Web admin / Activity shell (Hono + Vite + React)
+- Discord OAuth login shell
+- Docker / docker-compose ready
+- GitHub Actions CI with Bun
 
 ## Quickstart
 
@@ -68,8 +82,9 @@ web/               # Vite + React shell
 ## Documentation
 
 - [Setup](docs/SETUP.md)
-- [Architecture](docs/ARCHITECTURE.md)
 - [Deploy](docs/DEPLOY.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Architecture Rationale](docs/ARCHITECTURE_RATIONALE.md)
 
 ## License
 
