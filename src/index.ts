@@ -52,12 +52,11 @@ async function main(): Promise<void> {
     void messageCreate.execute(message);
   });
 
-  if (env.SESSION_SECRET && env.DISCORD_CLIENT_SECRET && env.OAUTH_REDIRECT_URI) {
-    const app = createWebApp(client);
-    webServer = serve({ fetch: app.fetch, port: env.PORT }) as unknown as Server;
-    logger.info({ port: env.PORT }, 'Web server started');
-  } else {
-    logger.warn('Web server disabled: set SESSION_SECRET, DISCORD_CLIENT_SECRET and OAUTH_REDIRECT_URI');
+  const app = createWebApp(client);
+  webServer = serve({ fetch: app.fetch, port: env.PORT }) as unknown as Server;
+  logger.info({ port: env.PORT }, 'Web server started');
+  if (!env.SESSION_SECRET || !env.DISCORD_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI) {
+    logger.warn('OAuth routes disabled: set SESSION_SECRET, DISCORD_CLIENT_SECRET and OAUTH_REDIRECT_URI');
   }
 
   await client.login(env.DISCORD_TOKEN);

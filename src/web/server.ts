@@ -1,4 +1,5 @@
 import { Hono, type Context } from 'hono';
+import { env } from '../config/env.js';
 import { logger } from '../infra/logger.js';
 import { getSiteConfig, buildLoginUrl, handleOAuthCallback, requireSession } from './auth.js';
 import { registerActivityRoutes } from './activity.js';
@@ -83,11 +84,17 @@ export function createWebApp(client: Client): Hono {
   app.get('/health', (c) => c.json({ ok: true }));
 
   app.get('/auth/login', async (c) => {
+    if (!env.SESSION_SECRET || !env.DISCORD_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI) {
+      return c.text('OAuth not configured', 503);
+    }
     const login = await buildLoginUrl(c);
     return c.redirect(login.url);
   });
 
   app.get('/auth/callback', async (c) => {
+    if (!env.SESSION_SECRET || !env.DISCORD_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI) {
+      return c.text('OAuth not configured', 503);
+    }
     const code = c.req.query('code');
     const state = c.req.query('state') ?? '';
     if (!code) return c.text('Missing code', 400);
