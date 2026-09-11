@@ -1,4 +1,4 @@
-import { env } from '../config/env.js';
+import { dbEnv } from '../config/dbEnv.js';
 import { createControlClient, createControlDb } from './control/client.js';
 import { getGuildRow, registerGuild } from './control/guilds.js';
 import { guilds } from './control/schema.js';
@@ -25,17 +25,17 @@ const guildClients = new Map<string, LibsqlClient>();
 const pendingGuilds = new Map<string, Promise<{ client: LibsqlClient; db: GuildDb }>>();
 
 function resolveGuildDbUrl(guildId: string): string {
-  if (env.TURSO_TEMPLATE_DB_URL.startsWith('file:')) {
+  if (dbEnv.TURSO_TEMPLATE_DB_URL.startsWith('file:')) {
     return `file:./data/guild-${guildId}.db`;
   }
   // Turso per-guild URL pattern. Replace with your own provisioning logic.
-  return env.TURSO_TEMPLATE_DB_URL;
+  return dbEnv.TURSO_TEMPLATE_DB_URL;
 }
 
 async function initGuildDb(guildId: string): Promise<{ client: LibsqlClient; db: GuildDb }> {
   const row = await getGuildRow(guildId);
   const url = row?.dbUrl ?? resolveGuildDbUrl(guildId);
-  const token = row?.dbToken ?? env.TURSO_GROUP_TOKEN;
+  const token = row?.dbToken ?? dbEnv.TURSO_GROUP_TOKEN;
   const client = createGuildClient(url, token);
   const db = createGuildDb(client);
   return { client, db };

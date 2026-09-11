@@ -1,4 +1,5 @@
 import { defineConfig } from 'drizzle-kit';
+import { dbEnv } from './src/config/dbEnv.js';
 
 export default defineConfig({
   out: './drizzle/guild',
@@ -6,7 +7,7 @@ export default defineConfig({
   dialect: 'sqlite',
   driver: 'turso',
   dbCredentials: {
-    url: process.env.TURSO_TEMPLATE_DB_URL ?? 'file:./data/template-guild.db',
-    authToken: process.env.TURSO_GROUP_TOKEN,
+    url: dbEnv.TURSO_TEMPLATE_DB_URL,
+    authToken: dbEnv.TURSO_GROUP_TOKEN,
   },
 });

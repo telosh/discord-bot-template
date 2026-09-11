@@ -1,4 +1,5 @@
 import { defineConfig } from 'drizzle-kit';
+import { dbEnv } from './src/config/dbEnv.js';
 
 export default defineConfig({
   out: './drizzle/control',
@@ -6,7 +7,7 @@ export default defineConfig({
   dialect: 'sqlite',
   driver: 'turso',
   dbCredentials: {
-    url: process.env.CONTROL_DB_URL ?? 'file:./data/control.db',
-    authToken: process.env.CONTROL_DB_TOKEN,
+    url: dbEnv.CONTROL_DB_URL,
+    authToken: dbEnv.CONTROL_DB_TOKEN,
   },
 });

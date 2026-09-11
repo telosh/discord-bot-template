@@ -1,5 +1,5 @@
 import { migrate } from 'drizzle-orm/libsql/migrator';
-import { env } from '../config/env.js';
+import { dbEnv } from '../config/dbEnv.js';
 import { logger } from '../infra/logger.js';
 import { createControlDb } from './control/client.js';
 import { createGuildClient, createGuildDb } from './client.js';
@@ -15,9 +15,9 @@ async function migrateControl(): Promise<void> {
 }
 
 async function migrateTemplateGuild(): Promise<void> {
-  const client = createGuildClient(env.TURSO_TEMPLATE_DB_URL, env.TURSO_GROUP_TOKEN);
+  const client = createGuildClient(dbEnv.TURSO_TEMPLATE_DB_URL, dbEnv.TURSO_GROUP_TOKEN);
   const db = createGuildDb(client);
-  logger.info({ url: env.TURSO_TEMPLATE_DB_URL }, 'Migrating template guild DB');
+  logger.info({ url: dbEnv.TURSO_TEMPLATE_DB_URL }, 'Migrating template guild DB');
   await migrate(db, { migrationsFolder: './drizzle/guild' });
   logger.info('Template guild DB migrated');
 }

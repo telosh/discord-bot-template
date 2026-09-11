@@ -15,11 +15,6 @@ const EnvSchema = z.object({
   SESSION_SECRET: z.string().optional(),
   WEB_BASE_URL: z.string().url().optional(),
 
-  CONTROL_DB_URL: z.string().default('file:./data/control.db'),
-  CONTROL_DB_TOKEN: z.string().optional(),
-  TURSO_TEMPLATE_DB_URL: z.string().default('file:./data/template-guild.db'),
-  TURSO_GROUP_TOKEN: z.string().optional(),
-
   PORT: z.coerce.number().int().positive().default(3000),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
   NODE_ENV: z.string().default('development'),
