@@ -1,0 +1,50 @@
+{
+  "name": "discord-bot-template",
+  "version": "0.1.0",
+  "description": "Public OSS Discord bot template. Bun + discord.js + Hono + React + Turso.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "build:web": "bunx --bun vite build --config web/vite.config.ts",
+    "start": "bun run dist/index.js",
+    "deploy:commands": "bun run src/deploy-commands.ts",
+    "deploy:commands:global": "bun run src/deploy-commands.ts --global",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck:web": "tsc --noEmit -p web/tsconfig.json",
+    "test": "vitest run",
+    "db:generate:control": "drizzle-kit generate --config=drizzle.control.config.ts",
+    "db:generate:guild": "drizzle-kit generate --config=drizzle.guild.config.ts",
+    "db:migrate:control": "bun run src/db/migrate.ts control",
+    "db:migrate:guild": "bun run src/db/migrate.ts guild",
+    "db:migrate:all": "bun run src/db/migrate.ts all"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.1",
+    "@libsql/client": "^0.18.0",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.13.7",
+    "pino": "^9.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.14",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "drizzle-kit": "^0.31.10",
+    "pino-pretty": "^11.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  }
+}
